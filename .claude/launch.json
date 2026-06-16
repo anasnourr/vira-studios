@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vira",
+      "runtimeExecutable": "C:\\Users\\IT\\tools\\node\\npm.cmd",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    }
+  ]
+}

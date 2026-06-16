@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* =========================================================
+   VIRA STUDIOS — Design System
+   Dark luxury · editorial · cinematic
+   ========================================================= */
+
+@theme {
+  /* Core palette */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #0e0e0e;
+  --color-ink-raised: #131313;
+  --color-bone: #f5f5f5;
+  --color-gold: #c6a66b;
+  --color-gold-soft: #d8bf8e;
+  --color-gold-deep: #9c8350;
+  --color-ash: #9b9b9b;
+  --color-ash-dim: #6a6a6a;
+
+  /* Hairlines & surfaces */
+  --color-line: rgba(245, 245, 245, 0.08);
+  --color-line-strong: rgba(245, 245, 245, 0.16);
+  --color-glass: rgba(245, 245, 245, 0.03);
+
+  /* Typography */
+  --font-display: var(--font-fraunces), "Times New Roman", serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display-ar: var(--font-amiri), serif;
+  --font-body-ar: var(--font-ibm-arabic), system-ui, sans-serif;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Layout */
+  --shell: 1480px;
+}
+
+/* ----------------------------------------------------------
+   Base
+   ---------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis owns scrolling */
+    background: var(--color-ink);
+    /* `clip` (not `hidden`) removes stray horizontal scroll from clipped
+       decorative layers without breaking position: sticky. */
+    overflow-x: clip;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Arabic / RTL body swap (the .font-display swap lives unlayered below,
+     so it can win over the unlayered .font-display helper). */
+  [dir="rtl"] body {
+    font-family: var(--font-body-ar);
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  /* Hide the native cursor only on devices that have a real pointer */
+  @media (hover: hover) and (pointer: fine) {
+    body.has-custom-cursor,
+    body.has-custom-cursor * {
+      cursor: none !important;
+    }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242424;
+    border-radius: 99px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+/* ----------------------------------------------------------
+   Typography helpers
+   ---------------------------------------------------------- */
+.font-display {
+  font-family: var(--font-display);
+}
+/* Unlayered so it overrides the unlayered .font-display above in RTL. */
+[dir="rtl"] .font-display {
+  font-family: var(--font-display-ar);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Fluid display sizes */
+.display-xl {
+  font-size: clamp(2.75rem, 9vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+.display-lg {
+  font-size: clamp(2.25rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.display-md {
+  font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[dir="rtl"] .eyebrow {
+  letter-spacing: 0.12em;
+}
+
+/* ----------------------------------------------------------
+   Layout shell
+   ---------------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4.5rem);
+}
+
+/* ----------------------------------------------------------
+   Background system — grain + depth
+   ---------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Soft hairline grid overlay used in some sections */
+.hairline-grid {
+  background-image: linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ----------------------------------------------------------
+   Interactive bits
+   ---------------------------------------------------------- */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.gold-text {
+  color: var(--color-gold);
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line-strong),
+    transparent
+  );
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
